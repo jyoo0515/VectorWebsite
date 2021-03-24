@@ -15,4 +15,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VectorWebsite.Application\VectorWebsite.Application.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,14 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using VectorWebsite.Domain;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 
 namespace VectorWebsite.Persistance
 {
-    class DataContext
+    public class DataContext : IdentityDbContext<IdentityUser>
     {
+        public DataContext(DbContextOptions options)
+            : base(options)
+        {
+        }
+
     }
 }

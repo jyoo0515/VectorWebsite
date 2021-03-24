@@ -5,15 +5,13 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VectorWebsite.API", "VecotrWebsite.API\VectorWebsite.API.csproj", "{26575233-B9E7-4571-9571-7F0AEA0B86C5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VectorWebsite.Dashboard", "VectorWebsite.Dashboard\VectorWebsite.Dashboard.csproj", "{13CB869B-C9C5-4BD6-80EE-C38511D42CC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VectorWebsite.Domain", "VectorWebsite.Domain\VectorWebsite.Domain.csproj", "{B2BA1026-3CD9-4DCE-B1DF-B0F04F02E4DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorWebsite.Domain", "VectorWebsite.Domain\VectorWebsite.Domain.csproj", "{B2BA1026-3CD9-4DCE-B1DF-B0F04F02E4DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VectorWebsite.Application", "VectorWebsite.Application\VectorWebsite.Application.csproj", "{AF322176-DD6A-4E49-A083-65E8CC645A4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorWebsite.Application", "VectorWebsite.Application\VectorWebsite.Application.csproj", "{AF322176-DD6A-4E49-A083-65E8CC645A4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VectorWebsite.Infrastructure", "VectorWebsite.Infrastructure\VectorWebsite.Infrastructure.csproj", "{A2A90923-375F-47BF-994C-D6BF8813008C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorWebsite.Infrastructure", "VectorWebsite.Infrastructure\VectorWebsite.Infrastructure.csproj", "{A2A90923-375F-47BF-994C-D6BF8813008C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorWebsite.Persistance", "VectorWebsite.Persistance\VectorWebsite.Persistance.csproj", "{A479F192-3483-4166-B54E-92433C49FF40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VectorWebsite.Persistance", "VectorWebsite.Persistance\VectorWebsite.Persistance.csproj", "{A479F192-3483-4166-B54E-92433C49FF40}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +23,6 @@ Global
 		{26575233-B9E7-4571-9571-7F0AEA0B86C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26575233-B9E7-4571-9571-7F0AEA0B86C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26575233-B9E7-4571-9571-7F0AEA0B86C5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{13CB869B-C9C5-4BD6-80EE-C38511D42CC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{13CB869B-C9C5-4BD6-80EE-C38511D42CC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{13CB869B-C9C5-4BD6-80EE-C38511D42CC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{13CB869B-C9C5-4BD6-80EE-C38511D42CC4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B2BA1026-3CD9-4DCE-B1DF-B0F04F02E4DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B2BA1026-3CD9-4DCE-B1DF-B0F04F02E4DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2BA1026-3CD9-4DCE-B1DF-B0F04F02E4DD}.Release|Any CPU.ActiveCfg = Release|Any CPU

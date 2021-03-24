@@ -11,4 +11,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VectorWebsite.Domain\VectorWebsite.Domain.csproj" />
+    <ProjectReference Include="..\VectorWebsite.Infrastructure\VectorWebsite.Infrastructure.csproj" />
+    <ProjectReference Include="..\VectorWebsite.Persistance\VectorWebsite.Persistance.csproj" />
+  </ItemGroup>
+
 </Project>

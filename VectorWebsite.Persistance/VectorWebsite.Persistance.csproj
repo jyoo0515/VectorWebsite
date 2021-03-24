@@ -17,4 +17,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VectorWebsite.Domain\VectorWebsite.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
