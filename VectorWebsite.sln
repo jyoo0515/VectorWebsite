@@ -8,6 +8,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VectorWebsite.Application", "VectorWebsite.Application\VectorWebsite.Application.csproj", "{AF322176-DD6A-4E49-A083-65E8CC645A4C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VectorWebsite.Infrastructure", "VectorWebsite.Infrastructure\VectorWebsite.Infrastructure.csproj", "{A2A90923-375F-47BF-994C-D6BF8813008C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B2BA1026-3CD9-4DCE-B1DF-B0F04F02E4DD} = {B2BA1026-3CD9-4DCE-B1DF-B0F04F02E4DD}
+		{A479F192-3483-4166-B54E-92433C49FF40} = {A479F192-3483-4166-B54E-92433C49FF40}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VectorWebsite.Persistance", "VectorWebsite.Persistance\VectorWebsite.Persistance.csproj", "{A479F192-3483-4166-B54E-92433C49FF40}"
 EndProject

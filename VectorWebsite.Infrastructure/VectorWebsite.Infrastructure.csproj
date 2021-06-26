@@ -6,6 +6,12 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VectorWebsite.Domain\VectorWebsite.Domain.csproj" />
+    <ProjectReference Include="..\VectorWebsite.Persistance\VectorWebsite.Persistance.csproj" />
   </ItemGroup>
 
 </Project>
