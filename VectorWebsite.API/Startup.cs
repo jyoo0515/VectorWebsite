@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
 using VectorWebsite.Persistance;
 using MediatR;
-using VectorWebsite.Application.Users.Queries;
+using VectorWebsite.Application.Notices.Queries;
 using VectorWebsite.Infrastructure.Utils;
 using VectorWebsite.Domain.DTOs;
 
@@ -84,8 +84,8 @@ namespace VectorWebsite.API
                 });
             });
 
-            //services.AddAutoMapper(typeof(Login).Assembly);
-            services.AddMediatR(typeof(GetAll).Assembly);
+            services.AddAutoMapper(typeof(GetAll.Handler));
+            services.AddMediatR(typeof(GetAll.Query));
             services.AddScoped<IJwtGenerator, JwtGenerator>();
 
             services.AddControllers();

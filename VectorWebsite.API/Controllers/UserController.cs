@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MediatR;
 using VectorWebsite.Domain.DTOs;
 using VectorWebsite.Application.Users.Queries;
+using Microsoft.Extensions.Logging;
 
 namespace VectorWebsite.API.Controllers
 {
@@ -15,11 +16,13 @@ namespace VectorWebsite.API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        public readonly IMediator _mediator;
+        private readonly IMediator _mediator;
+        private readonly ILogger<UserController> _logger;
 
-        public UserController(IMediator mediator)
+        public UserController(IMediator mediator, ILogger<UserController> logger)
         {
             _mediator = mediator;
+            _logger = logger;
         }
 
         [HttpGet("login")]
