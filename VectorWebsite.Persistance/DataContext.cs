@@ -14,6 +14,7 @@ namespace VectorWebsite.Persistance
         }
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Notice> Notices { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
