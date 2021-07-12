@@ -84,7 +84,7 @@ namespace VectorWebsite.API
                 });
             });
 
-            services.AddAutoMapper(typeof(GetAll.Handler));
+            services.AddAutoMapper(typeof(GetAll));
             services.AddMediatR(typeof(GetAll.Query));
             services.AddScoped<IJwtGenerator, JwtGenerator>();
 
