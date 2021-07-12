@@ -14,7 +14,8 @@ namespace VectorWebsite.Domain.Profiles
         public NoticeProfile()
         {
             CreateMap<Notice, NoticeDTO>();
-            CreateMap<NoticeDTO, Notice>();
+            CreateMap<NoticeDTO, Notice>()
+                .ForMember(dest => dest.CreatedDate, opt => opt.Ignore());
         }
     }
 }

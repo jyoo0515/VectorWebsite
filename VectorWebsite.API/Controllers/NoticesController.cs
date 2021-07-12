@@ -9,7 +9,6 @@ using VectorWebsite.Application.Notices.Queries;
 using VectorWebsite.Application.Notices.Commands;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
 
 namespace VectorWebsite.API.Controllers
 {

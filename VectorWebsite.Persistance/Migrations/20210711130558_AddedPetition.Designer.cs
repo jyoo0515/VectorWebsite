@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VectorWebsite.Persistance;
 
 namespace VectorWebsite.Persistance.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210711130558_AddedPetition")]
+    partial class AddedPetition
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -378,8 +380,7 @@ namespace VectorWebsite.Persistance.Migrations
                 {
                     b.HasOne("VectorWebsite.Domain.Petition", "Petition")
                         .WithMany("Comments")
-                        .HasForeignKey("PetitionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PetitionId");
 
                     b.Navigation("Petition");
                 });
