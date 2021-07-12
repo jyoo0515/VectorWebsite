@@ -21,6 +21,10 @@ using MediatR;
 using VectorWebsite.Application.Users.Queries;
 using VectorWebsite.Infrastructure.Utils;
 using VectorWebsite.Domain.DTOs;
+using FluentValidation.AspNetCore;
+using VectorWebsite.Application.Users.Commands;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace VectorWebsite.API
 {
@@ -88,7 +92,14 @@ namespace VectorWebsite.API
             services.AddMediatR(typeof(GetAll).Assembly);
             services.AddScoped<IJwtGenerator, JwtGenerator>();
 
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            }).AddFluentValidation(config =>
+            {
+                config.RegisterValidatorsFromAssemblyContaining<Register>();
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "VectorWebsite.API", Version = "v1" });
