@@ -17,4 +17,8 @@
     <ProjectReference Include="..\VectorWebsite.Persistance\VectorWebsite.Persistance.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Petitions\" />
+  </ItemGroup>
+
 </Project>

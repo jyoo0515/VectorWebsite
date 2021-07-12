@@ -15,10 +15,20 @@ namespace VectorWebsite.Persistance
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Notice> Notices { get; set; }
+        public DbSet<Petition> Petitions { get; set; }
+        public DbSet<PetitionComment> PetitionComments { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<PetitionComment>()
+                .HasOne(p => p.Petition)
+                .WithMany(p => p.Comments);
+
+            builder.Entity<Petition>()
+                .HasMany(p => p.Comments)
+                .WithOne(p => p.Petition)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
     }
