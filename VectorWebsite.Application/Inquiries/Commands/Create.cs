@@ -13,13 +13,13 @@ using VectorWebsite.Domain.DTOs;
 using VectorWebsite.Infrastructure.Exceptions;
 using System.Diagnostics;
 
-namespace VectorWebsite.Application.Petitions.Commands
+namespace VectorWebsite.Application.Inquiries.Commands
 {
     public class Create
     {
         public class Command : IRequest
         {
-            public PetitionDTO Petition { get; set; }
+            public InquiryDTO Inquiry { get; set; }
         }
         public class Handler : IRequestHandler<Command>
         {
@@ -32,15 +32,14 @@ namespace VectorWebsite.Application.Petitions.Commands
             }
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var petition = _mapper.Map<Petition>(request.Petition);
+                var inquiry = _mapper.Map<Inquiry>(request.Inquiry);
 
-                if (petition == null)
+                if (inquiry == null)
                 {
-                    throw new RestException(System.Net.HttpStatusCode.InternalServerError, "Failed to map petition");
+                    throw new RestException(System.Net.HttpStatusCode.InternalServerError, "Failed to map inquiry");
                 }
-                petition.Comments.Clear();
 
-                _context.Petitions.Add(petition);
+                _context.Inquiries.Add(inquiry);
 
                 bool success = await _context.SaveChangesAsync() > 0;
 

@@ -18,6 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Inquiries\Commands\" />
+    <Folder Include="Inquiries\Queries\" />
     <Folder Include="Petitions\" />
   </ItemGroup>
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,42 +11,37 @@ using VectorWebsite.Persistance;
 using Microsoft.EntityFrameworkCore;
 using VectorWebsite.Domain.DTOs;
 using VectorWebsite.Infrastructure.Exceptions;
-using System.Diagnostics;
 
-namespace VectorWebsite.Application.Petitions.Commands
+namespace VectorWebsite.Application.Inquiries.Commands
 {
-    public class Create
+    public class Delete
     {
         public class Command : IRequest
         {
-            public PetitionDTO Petition { get; set; }
+            public Guid Id { get; set; }
         }
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
-            private readonly IMapper _mapper;
             public Handler(DataContext context, IMapper mapper)
             {
                 _context = context;
-                _mapper = mapper;
             }
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var petition = _mapper.Map<Petition>(request.Petition);
+                var inquiry = await _context.Inquiries.FirstOrDefaultAsync(i => i.Id == request.Id);
 
-                if (petition == null)
+                if (inquiry == null)
                 {
-                    throw new RestException(System.Net.HttpStatusCode.InternalServerError, "Failed to map petition");
+                    throw new Exception($"Inquiry {request.Id} is not found");
                 }
-                petition.Comments.Clear();
 
-                _context.Petitions.Add(petition);
-
+                _context.Inquiries.Remove(inquiry);
                 bool success = await _context.SaveChangesAsync() > 0;
 
                 if (!success)
                 {
-                    throw new Exception("Problem saving changes");
+                    throw new Exception("Error deleting notice");
                 }
 
                 return Unit.Value;

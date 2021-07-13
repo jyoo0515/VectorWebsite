@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,15 +11,14 @@ using VectorWebsite.Persistance;
 using Microsoft.EntityFrameworkCore;
 using VectorWebsite.Domain.DTOs;
 using VectorWebsite.Infrastructure.Exceptions;
-using System.Diagnostics;
 
-namespace VectorWebsite.Application.Petitions.Commands
+namespace VectorWebsite.Application.Inquiries.Commands
 {
-    public class Create
+    public class Edit
     {
         public class Command : IRequest
         {
-            public PetitionDTO Petition { get; set; }
+            public InquiryDTO UpdatedInquiry { get; set; }
         }
         public class Handler : IRequestHandler<Command>
         {
@@ -32,15 +31,14 @@ namespace VectorWebsite.Application.Petitions.Commands
             }
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var petition = _mapper.Map<Petition>(request.Petition);
+                var inquiry = await _context.Inquiries.FirstOrDefaultAsync(i => i.Id == request.UpdatedInquiry.Id);
 
-                if (petition == null)
+                if (inquiry == null)
                 {
-                    throw new RestException(System.Net.HttpStatusCode.InternalServerError, "Failed to map petition");
+                    throw new RestException(System.Net.HttpStatusCode.NotFound, "No such inquiry exists");
                 }
-                petition.Comments.Clear();
 
-                _context.Petitions.Add(petition);
+                _mapper.Map(request.UpdatedInquiry, inquiry);
 
                 bool success = await _context.SaveChangesAsync() > 0;
 
