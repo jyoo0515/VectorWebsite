@@ -7,23 +7,85 @@ using VectorWebsite.Infrastructure.Exceptions;
 using VectorWebsite.Persistance;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
+using VectorWebsite.Domain;
+using VectorWebsite.Domain.DTOs;
+using VectorWebsite.Infrastructure.Utils;
+using Microsoft.AspNetCore.Identity;
+using System.Net;
+using FluentValidation;
+using VectorWebsite.Application.Validators;
 
 namespace VectorWebsite.Application.Users.Commands
 {
     public class Register
     {
-        public class Command : IRequest
+        public class Command : IRequest<UserDTO>
         {
-            public string Name { get; set; }
+            public string Username { get; set; }
+            public string Email { get; set; }
+            public string Password { get; set; }
+            //이것은 사용하지 않음. Admin은 직접 설정한다.
+            public bool IsAdmin { get; set; } = false;
         }
 
-        //public class Handler : IRequestHandler<Command>
-        //{
-        //    private readonly DataContext _context;
-        //    public Handler(DataContext context)
-        //    {
-        //        _context = context;
-        //    }
-        //}
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.Username).NotEmpty();
+                RuleFor(x => x.Email).NotEmpty().EmailAddress();
+                RuleFor(x => x.Password).Password();
+            }
+        }
+
+        public class Handler : IRequestHandler<Command, UserDTO>
+        {
+            private readonly DataContext _context;
+            private readonly IJwtGenerator _jwtGenerator;
+            private readonly UserManager<ApplicationUser> _userManager;
+            public Handler(DataContext context, UserManager<ApplicationUser> userManager, IJwtGenerator jwtGenerator)
+            {
+                this._userManager = userManager;
+                this._jwtGenerator = jwtGenerator;
+                this._context = context;
+            }
+
+            public async Task<UserDTO> Handle(Command request, CancellationToken cancellationToken)
+            {
+                if (await _context.Users.Where(u => u.Email == request.Email).AnyAsync())
+                {
+                    throw new RestException(HttpStatusCode.BadRequest, new { Email = "Email already exists" });
+                }
+
+                if (await _context.Users.Where(u => u.UserName == request.Username).AnyAsync())
+                {
+                    throw new RestException(HttpStatusCode.BadRequest, new { UserName = "UserName already exists" });
+                }
+
+                var user = new ApplicationUser
+                {
+                    UserName = request.Username,
+                    Email = request.Email,
+                    IsAdmin = false,
+                    ConfirmedStudent = false,
+                };
+
+                var result = await _userManager.CreateAsync(user, request.Password);
+
+                if (result.Succeeded)
+                {
+                    return new UserDTO
+                    {
+                        IsAdmin = user.IsAdmin,
+                        Name = user.UserName,
+                        ConfirmedStudent = user.ConfirmedStudent,
+                        Token = _jwtGenerator.CreateToken(user),
+                    };
+                }
+
+                throw new Exception("Problem Creating User");
+            }
+        }
     }
 }

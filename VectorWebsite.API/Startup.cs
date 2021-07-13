@@ -21,6 +21,11 @@ using MediatR;
 using VectorWebsite.Application.Notices.Queries;
 using VectorWebsite.Infrastructure.Utils;
 using VectorWebsite.Domain.DTOs;
+using FluentValidation.AspNetCore;
+using VectorWebsite.Application.Users.Commands;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using VectorWebsite.Domain;
 
 namespace VectorWebsite.API
 {
@@ -40,6 +45,11 @@ namespace VectorWebsite.API
                 options.UseSqlServer(Configuration.GetConnectionString("defaultconnection")));
             services.AddIdentity<IdentityUser, IdentityRole>()
                     .AddEntityFrameworkStores<DataContext>();
+
+            var builder = services.AddIdentityCore<ApplicationUser>();
+            var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
+            identityBuilder.AddEntityFrameworkStores<DataContext>();
+            identityBuilder.AddSignInManager<SignInManager<ApplicationUser>>();
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
             services.AddAuthentication((x) =>
@@ -84,15 +94,23 @@ namespace VectorWebsite.API
                 });
             });
 
-            services.AddAutoMapper(typeof(GetAll));
-            services.AddMediatR(typeof(GetAll.Query));
-            services.AddScoped<IJwtGenerator, JwtGenerator>();
-
-            services.AddControllers();
+            //services.AddAutoMapper(typeof(Login).Assembly);
+            services.AddControllers(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            }).AddFluentValidation(config =>
+            {
+                config.RegisterValidatorsFromAssemblyContaining<Register>();
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "VectorWebsite.API", Version = "v1" });
             });
+
+            services.AddMediatR(typeof(GetAll).Assembly);
+            services.AddScoped<IJwtGenerator, JwtGenerator>();
+            services.AddScoped<IUserAccessor, UserAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

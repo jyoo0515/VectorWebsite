@@ -17,52 +17,54 @@ namespace VectorWebsite.Application.Users.Queries
     {
         public class Query : IRequest<UserDTO>
         {
-            public string Id { get; set; }
+            public string Email { get; set; }
             public string Password { get; set; }
         }
-        //public class Handler : IRequestHandler<Query, UserDTO>
-        //{
-        //    private readonly SignInManager<IdentityUser> _signInManager;
-        //    private readonly UserManager<ApplicationUser> _userManager;
-        //    private readonly IJwtGenerator _jwtGenerator;
 
-        //    public Handler(SignInManager<IdentityUser> signInManager, UserManager<ApplicationUser> userManager, IJwtGenerator jwtGenerator)
-        //    {
-        //        _signInManager = signInManager;
-        //        _userManager = userManager;
-        //        _jwtGenerator = jwtGenerator;
-        //    }
+        public class Handler : IRequestHandler<Query, UserDTO>
+        {
+            private readonly SignInManager<IdentityUser> _signInManager;
+            private readonly UserManager<ApplicationUser> _userManager;
+            private readonly IJwtGenerator _jwtGenerator;
 
-        //    public async Task<UserDTO> Handle(Query request, CancellationToken cancellationToken)
-        //    {
-        //        if (string.IsNullOrEmpty(request.Id) || string.IsNullOrEmpty(request.Password))
-        //        {
-        //            throw new RestException(HttpStatusCode.BadRequest, "Id and Password cannot be empty");
-        //        }
+            public Handler(SignInManager<IdentityUser> signInManager, UserManager<ApplicationUser> userManager, IJwtGenerator jwtGenerator)
+            {
+                _signInManager = signInManager;
+                _userManager = userManager;
+                _jwtGenerator = jwtGenerator;
+            }
 
-        //        var user = await _userManager.FindByIdAsync(request.Id);
+            public async Task<UserDTO> Handle(Query request, CancellationToken cancellationToken)
+            {
+                if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password))
+                {
+                    throw new RestException(HttpStatusCode.BadRequest, "Id and Password cannot be empty");
+                }
 
-        //        if (user == null)
-        //        {
-        //            throw new RestException(HttpStatusCode.Unauthorized);
-        //        }
 
-        //        var result = await _signInManager
-        //            .CheckPasswordSignInAsync(user, request.Password, false);
+                var user = await _userManager.FindByEmailAsync(request.Email);
 
-        //        if (result.Succeeded)
-        //        {
-        //            return new UserDTO
-        //            {
-        //                Name = user.UserName,
-        //                IsAdmin = user.IsAdmin,
-        //                ConfirmedStudent = user.ConfirmedStudent,
-        //                Token = _jwtGenerator.CreateToken(user),
-        //            };
-        //        }
+                if (user == null)
+                {
+                    throw new RestException(HttpStatusCode.Unauthorized);
+                }
 
-        //        throw new RestException(HttpStatusCode.Unauthorized, "Id or Password is incorrect.");
-        //    }
-        //}
+                var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+
+                if (result.Succeeded)
+                {
+                    return new UserDTO
+                    {
+                        Id = user.Id,
+                        Name = user.UserName,
+                        IsAdmin = user.IsAdmin,
+                        ConfirmedStudent = user.ConfirmedStudent,
+                        Token = _jwtGenerator.CreateToken(user),
+                    };
+                }
+
+                throw new RestException(HttpStatusCode.Unauthorized, "Email or Password is incorrect.");
+            }
+        }
     }
 }
