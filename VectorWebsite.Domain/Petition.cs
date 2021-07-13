@@ -12,9 +12,9 @@ namespace VectorWebsite.Domain
         public string Title { get; set; }
         public string Content { get; set; }
         public string UserId { get; set; }
-        public int AgreeNum { get; set; } = 0;
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
-        public DateTime ExpiryDate { get; set; } = DateTime.Now;
+        public int AgreeNum { get; set; }
+        public DateTime CreatedDate { get; init; } = DateTime.Now;
+        public DateTime ExpiryDate { get; init; } = DateTime.Now.AddMonths(2);
         public List<PetitionComment> Comments { get; set; } = new List<PetitionComment>();
     }
 
@@ -23,7 +23,7 @@ namespace VectorWebsite.Domain
         public Guid Id { get; set; }
         public string UserId { get; set; }
         public string Content { get; set; }
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
-        public virtual Petition Petition { get; set; }
+        public DateTime CreatedDate { get; init; } = DateTime.Now;
+        public Petition Petition { get; set; }
     }
 }
