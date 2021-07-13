@@ -17,6 +17,7 @@ namespace VectorWebsite.Persistance
         public DbSet<Notice> Notices { get; set; }
         public DbSet<Petition> Petitions { get; set; }
         public DbSet<PetitionComment> PetitionComments { get; set; }
+        public DbSet<Inquiry> Inquiries { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
