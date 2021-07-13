@@ -17,7 +17,7 @@ namespace VectorWebsite.Application.Users.Queries
     {
         public class Query : IRequest<UserDTO>
         {
-            public string Id { get; set; }
+            public string Email { get; set; }
             public string Password { get; set; }
         }
 
@@ -36,25 +36,26 @@ namespace VectorWebsite.Application.Users.Queries
 
             public async Task<UserDTO> Handle(Query request, CancellationToken cancellationToken)
             {
-                if (string.IsNullOrEmpty(request.Id) || string.IsNullOrEmpty(request.Password))
+                if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password))
                 {
                     throw new RestException(HttpStatusCode.BadRequest, "Id and Password cannot be empty");
                 }
 
-                var user = await _userManager.FindByIdAsync(request.Id);
+
+                var user = await _userManager.FindByEmailAsync(request.Email);
 
                 if (user == null)
                 {
                     throw new RestException(HttpStatusCode.Unauthorized);
                 }
 
-                var result = await _signInManager
-                    .CheckPasswordSignInAsync(user, request.Password, false);
+                var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
                 if (result.Succeeded)
                 {
                     return new UserDTO
                     {
+                        Id = user.Id,
                         Name = user.UserName,
                         IsAdmin = user.IsAdmin,
                         ConfirmedStudent = user.ConfirmedStudent,
@@ -62,7 +63,7 @@ namespace VectorWebsite.Application.Users.Queries
                     };
                 }
 
-                throw new RestException(HttpStatusCode.Unauthorized, "Id or Password is incorrect.");
+                throw new RestException(HttpStatusCode.Unauthorized, "Email or Password is incorrect.");
             }
         }
     }
