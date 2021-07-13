@@ -32,6 +32,8 @@ namespace VectorWebsite.Application.Petitions.Commands
             }
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                request.Petition.CreatedDate = DateTime.Now;
+                request.Petition.ExpiryDate = DateTime.Now.AddMonths(2);
                 var petition = _mapper.Map<Petition>(request.Petition);
 
                 if (petition == null)
