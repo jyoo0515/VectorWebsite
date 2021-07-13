@@ -25,6 +25,7 @@ namespace VectorWebsite.Application.Users.Commands
             public string Username { get; set; }
             public string Email { get; set; }
             public string Password { get; set; }
+            //이것은 사용하지 않음. Admin은 직접 설정한다.
             public bool IsAdmin { get; set; } = false;
         }
 
@@ -66,7 +67,7 @@ namespace VectorWebsite.Application.Users.Commands
                 {
                     UserName = request.Username,
                     Email = request.Email,
-                    IsAdmin = request.IsAdmin,
+                    IsAdmin = false,
                     ConfirmedStudent = false,
                 };
 
