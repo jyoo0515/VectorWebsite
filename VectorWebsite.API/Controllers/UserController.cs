@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using MediatR;
 using VectorWebsite.Domain.DTOs;
 using VectorWebsite.Application.Users.Queries;
-using Microsoft.Extensions.Logging;
+using VectorWebsite.Application.Users.Commands;
 
 namespace VectorWebsite.API.Controllers
 {
@@ -25,14 +25,11 @@ namespace VectorWebsite.API.Controllers
             _logger = logger;
         }
 
-        [HttpGet("login")]
-        public async Task<ActionResult<UserDTO>> ActionResult([FromQuery] string id, [FromQuery] string password)
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public async Task<ActionResult<UserDTO>> LoginAsync(Login.Query query)
         {
-            var user = await _mediator.Send(new Login.Query
-            {
-                Id = id,
-                Password = password
-            });
+            var user = await _mediator.Send(query);
 
             if (user == null)
             {
@@ -41,5 +38,20 @@ namespace VectorWebsite.API.Controllers
 
             return Ok(user);
         }
+
+        [AllowAnonymous]
+        [HttpPost("Register")]
+        public async Task<ActionResult<UserDTO>> RegisterAsync(Register.Command command)
+        {
+            return await _mediator.Send(command);
+        }
+
+        //현재 로그인한 유저 정보 반환
+        [HttpGet]
+        public async Task<ActionResult<UserDTO>> GetCurrentUser()
+        {
+            return await _mediator.Send(new GetCurrentUser.Query());
+        }
+
     }
 }
