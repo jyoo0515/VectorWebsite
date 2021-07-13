@@ -15,7 +15,9 @@ namespace VectorWebsite.Domain.Profiles
         {
             CreateMap<Petition, PetitionDTO>();
             CreateMap<PetitionDTO, Petition>()
-                .ForMember(dest => dest.Comments, opt => opt.Ignore());
+                .ForMember(dest => dest.Comments, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedDate, opt => opt.Ignore())
+                .ForMember(dest => dest.ExpiryDate, opt => opt.Ignore());
 
             CreateMap<PetitionComment, PetitionCommentDTO>();
             CreateMap<PetitionCommentDTO, PetitionComment>()
