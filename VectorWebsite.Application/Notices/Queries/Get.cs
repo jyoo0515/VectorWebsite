@@ -33,7 +33,10 @@ namespace VectorWebsite.Application.Notices.Queries
 
             public async Task<NoticeDTO> Handle(Query request, CancellationToken cancellationToken)
             {
-                var notice = await _context.Notices.FirstOrDefaultAsync(n => n.Id == request.Id);
+                var notice = await _context.Notices
+                    .Include(n => n.Creator)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(n => n.Id == request.Id);
 
                 if (notice == null)
                 {

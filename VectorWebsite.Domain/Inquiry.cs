@@ -9,11 +9,10 @@ namespace VectorWebsite.Domain
     public class Inquiry
     {
         public Guid Id { get; set; }
-        public string UserId { get; set; }
-        public string UserName { get; set; }
+        public ApplicationUser Creator { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
-        // public Byte[] Attachment { get; set; }
+        public string FileName { get; set; }
         public DateTime CreatedDate { get; init; } = DateTime.Now;
         public bool IsPrivate { get; set; }
         public InquiryStatus Status { get; set; } = InquiryStatus.등록;

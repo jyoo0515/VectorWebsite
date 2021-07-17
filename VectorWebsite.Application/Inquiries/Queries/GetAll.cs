@@ -31,6 +31,8 @@ namespace VectorWebsite.Application.Inquiries.Queries
             public async Task<List<InquiryDTO>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var inquiries = await _context.Inquiries
+                    .Include(i => i.Creator)
+                    .AsNoTracking()
                     .OrderBy(i => i.CreatedDate)
                     .ToListAsync();
 

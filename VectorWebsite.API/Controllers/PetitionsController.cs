@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace VectorWebsite.API.Controllers
             _logger = logger;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<List<PetitionDTO>>> GetAllAsync()
         {
@@ -35,6 +37,7 @@ namespace VectorWebsite.API.Controllers
             return Ok(petitions);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<PetitionDTO>> GetAsync(Guid id)
         {
@@ -47,13 +50,8 @@ namespace VectorWebsite.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateAsync([FromBody] PetitionDTO petition)
+        public async Task<ActionResult> CreateAsync(Create.Command command)
         {
-            var command = new Create.Command
-            {
-                Petition = petition
-            };
-
             await _mediator.Send(command);
 
             return Ok();
@@ -85,15 +83,8 @@ namespace VectorWebsite.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateCommentAsync(string userId, string content, Guid petitionId)
+        public async Task<ActionResult> CreateCommentAsync(CreateComment.Command command)
         {
-            var command = new CreateComment.Command
-            {
-                UserId = userId,
-                Content = content,
-                PetitionId = petitionId
-            };
-
             await _mediator.Send(command);
 
             return Ok();

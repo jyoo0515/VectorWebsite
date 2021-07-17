@@ -19,7 +19,9 @@ namespace VectorWebsite.Application.Petitions.Commands
     {
         public class Command : IRequest
         {
-            public PetitionDTO Petition { get; set; }
+            public string UserId { get; set; }
+            public string Title { get; set; }
+            public string Content { get; set; }
         }
         public class Handler : IRequestHandler<Command>
         {
@@ -32,12 +34,14 @@ namespace VectorWebsite.Application.Petitions.Commands
             }
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var petition = _mapper.Map<Petition>(request.Petition);
+                var user = await _context.ApplicationUsers.FirstOrDefaultAsync(u => u.Id == request.UserId);
 
-                if (petition == null)
+                var petition = new Petition
                 {
-                    throw new RestException(System.Net.HttpStatusCode.InternalServerError, "Failed to map petition");
-                }
+                    Creator = user,
+                    Title = request.Title,
+                    Content = request.Content
+                };
                 petition.Comments.Clear();
 
                 _context.Petitions.Add(petition);

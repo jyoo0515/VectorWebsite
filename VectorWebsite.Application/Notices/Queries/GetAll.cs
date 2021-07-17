@@ -30,7 +30,7 @@ namespace VectorWebsite.Application.Notices.Queries
             }
             public async Task<List<NoticeDTO>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var notices = await _context.Notices.ToListAsync();
+                var notices = await _context.Notices.Include(n => n.Creator).AsNoTracking().ToListAsync();
 
                 var noticeDTOs = _mapper.Map<List<Notice>, List<NoticeDTO>>(notices);
 

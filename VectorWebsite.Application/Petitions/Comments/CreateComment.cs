@@ -34,13 +34,14 @@ namespace VectorWebsite.Application.Petitions.Comments
             }
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                var user = await _context.ApplicationUsers.FirstOrDefaultAsync(u => u.Id == request.UserId);
                 var petition = await _context.Petitions
                     .Include(p => p.Comments)
                     .FirstOrDefaultAsync(p => p.Id == request.PetitionId);
 
                 var comment = new PetitionComment
                 {
-                    UserId = request.UserId,
+                    Creator = user,
                     Content = request.Content,
                     Petition = petition
                 };

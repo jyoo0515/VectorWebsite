@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using VectorWebsite.Domain.DTOs;
 using VectorWebsite.Infrastructure.Exceptions;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Http;
 
 namespace VectorWebsite.Application.Inquiries.Commands
 {
@@ -19,7 +20,11 @@ namespace VectorWebsite.Application.Inquiries.Commands
     {
         public class Command : IRequest
         {
-            public InquiryDTO Inquiry { get; set; }
+            public string UserId { get; set; }
+            public string Title { get; set; }
+            public string Content { get; set; }
+            public bool IsPrivate { get; set; }
+            public IFormFile Attachment { get; set; }
         }
         public class Handler : IRequestHandler<Command>
         {
@@ -32,12 +37,22 @@ namespace VectorWebsite.Application.Inquiries.Commands
             }
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var inquiry = _mapper.Map<Inquiry>(request.Inquiry);
+                var user = await _context.ApplicationUsers.FirstOrDefaultAsync(u => u.Id == request.UserId);
+                string filename = null;
 
-                if (inquiry == null)
+                if (request.Attachment != null)
                 {
-                    throw new RestException(System.Net.HttpStatusCode.InternalServerError, "Failed to map inquiry");
+                    filename = request.Attachment.FileName;
                 }
+
+                var inquiry = new Inquiry
+                {
+                    Creator = user,
+                    Title = request.Title,
+                    Content = request.Content,
+                    FileName = filename,
+                    IsPrivate = request.IsPrivate
+                };
 
                 _context.Inquiries.Add(inquiry);
 

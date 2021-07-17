@@ -9,6 +9,7 @@ using MediatR;
 using VectorWebsite.Domain.DTOs;
 using VectorWebsite.Application.Users.Queries;
 using VectorWebsite.Application.Users.Commands;
+using Microsoft.Extensions.Logging;
 
 namespace VectorWebsite.API.Controllers
 {
@@ -43,6 +44,16 @@ namespace VectorWebsite.API.Controllers
         [HttpPost("Register")]
         public async Task<ActionResult<UserDTO>> RegisterAsync(Register.Command command)
         {
+            PortalLogin.Query query = new PortalLogin.Query
+            {
+                UserId = command.StudentId,
+                Password = command.PortalPassword
+            };
+
+            bool confirm = await _mediator.Send(query);
+            command.ConfirmedStudent = confirm;
+            command.PortalPassword = null;
+
             return await _mediator.Send(command);
         }
 

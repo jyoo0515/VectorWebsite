@@ -31,6 +31,7 @@ namespace VectorWebsite.Application.Petitions.Queries
             public async Task<List<PetitionDTO>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var petitions = await _context.Petitions
+                    .Include(p => p.Creator)
                     .Include(p => p.Comments)
                     .AsNoTracking()
                     .OrderBy(p => p.CreatedDate)

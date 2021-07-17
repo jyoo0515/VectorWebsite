@@ -39,7 +39,8 @@ namespace VectorWebsite.Application.Users.Queries
                 return new UserDTO
                 {
                     Id = user.Id,
-                    Name = user.UserName,
+                    UserName = user.UserName,
+                    StudentId = user.StudentId,
                     Token = _jwtGenerator.CreateToken(user),
                     ConfirmedStudent = user.ConfirmedStudent,
                     IsAdmin = user.IsAdmin,
