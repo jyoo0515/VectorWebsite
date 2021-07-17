@@ -33,7 +33,10 @@ namespace VectorWebsite.Application.Inquiries.Queries
 
             public async Task<InquiryDTO> Handle(Query request, CancellationToken cancellationToken)
             {
-                var inquiry = await _context.Inquiries.FirstOrDefaultAsync(n => n.Id == request.Id);
+                var inquiry = await _context.Inquiries
+                    .Include(i => i.Creator)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(i => i.Id == request.Id);
 
                 if (inquiry == null)
                 {

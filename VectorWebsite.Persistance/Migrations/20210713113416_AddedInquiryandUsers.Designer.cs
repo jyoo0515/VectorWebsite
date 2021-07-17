@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VectorWebsite.Persistance;
 
 namespace VectorWebsite.Persistance.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210713113416_AddedInquiryandUsers")]
+    partial class AddedInquiryandUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -233,12 +235,6 @@ namespace VectorWebsite.Persistance.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("CreatorId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FileName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsPrivate")
                         .HasColumnType("bit");
 
@@ -248,9 +244,13 @@ namespace VectorWebsite.Persistance.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("CreatorId");
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Inquiries");
                 });
@@ -273,18 +273,16 @@ namespace VectorWebsite.Persistance.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("CreatorId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FileName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("CreatorId");
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Notices");
                 });
@@ -304,18 +302,16 @@ namespace VectorWebsite.Persistance.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("CreatorId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("CreatorId");
+                    b.HasKey("Id");
 
                     b.ToTable("Petitions");
                 });
@@ -332,15 +328,13 @@ namespace VectorWebsite.Persistance.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("CreatorId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<Guid?>("PetitionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("CreatorId");
+                    b.HasKey("Id");
 
                     b.HasIndex("PetitionId");
 
@@ -417,45 +411,12 @@ namespace VectorWebsite.Persistance.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("VectorWebsite.Domain.Inquiry", b =>
-                {
-                    b.HasOne("VectorWebsite.Domain.ApplicationUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId");
-
-                    b.Navigation("Creator");
-                });
-
-            modelBuilder.Entity("VectorWebsite.Domain.Notice", b =>
-                {
-                    b.HasOne("VectorWebsite.Domain.ApplicationUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId");
-
-                    b.Navigation("Creator");
-                });
-
-            modelBuilder.Entity("VectorWebsite.Domain.Petition", b =>
-                {
-                    b.HasOne("VectorWebsite.Domain.ApplicationUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId");
-
-                    b.Navigation("Creator");
-                });
-
             modelBuilder.Entity("VectorWebsite.Domain.PetitionComment", b =>
                 {
-                    b.HasOne("VectorWebsite.Domain.ApplicationUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId");
-
                     b.HasOne("VectorWebsite.Domain.Petition", "Petition")
                         .WithMany("Comments")
                         .HasForeignKey("PetitionId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Creator");
 
                     b.Navigation("Petition");
                 });

@@ -22,4 +22,9 @@
     <ProjectReference Include="..\VectorWebsite.Application\VectorWebsite.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Uploads\" />
+    <Folder Include="wwwroot\Uploads\Notice\" />
+  </ItemGroup>
+
 </Project>
