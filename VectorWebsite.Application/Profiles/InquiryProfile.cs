@@ -17,6 +17,9 @@ namespace VectorWebsite.Domain.Profiles
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Creator.UserName));
 
             CreateMap<InquiryDTO, Inquiry>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.Creator, opt => opt.Ignore())
+                .ForMember(dest => dest.FileName, opt => opt.Ignore())
                 .ForMember(dest => dest.CreatedDate, opt => opt.Ignore());
         }
     }
