@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace VectorWebsite.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/notices")]
     [ApiController]
     public class NoticesController : ControllerBase
     {
@@ -35,6 +35,7 @@ namespace VectorWebsite.API.Controllers
             return Ok(notices);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<NoticeDTO>> GetAsync(Guid id)
         {
