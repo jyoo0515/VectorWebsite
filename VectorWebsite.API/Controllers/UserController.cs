@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace VectorWebsite.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/user")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -41,7 +41,7 @@ namespace VectorWebsite.API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("Register")]
+        [HttpPost("register")]
         public async Task<ActionResult<UserDTO>> RegisterAsync(Register.Command command)
         {
             PortalLogin.Query query = new PortalLogin.Query
