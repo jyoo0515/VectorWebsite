@@ -105,12 +105,15 @@ namespace VectorWebsite.API
             });
             services.AddSwaggerGen(c =>
             {
+                c.CustomSchemaIds(type => type.ToString());
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "VectorWebsite.API", Version = "v1" });
             });
 
             services.AddMediatR(typeof(GetAll).Assembly);
+            services.AddAutoMapper(typeof(GetAll));
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
+            services.AddHttpClient();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

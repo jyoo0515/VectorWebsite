@@ -25,6 +25,9 @@ namespace VectorWebsite.Application.Users.Commands
             public string Username { get; set; }
             public string Email { get; set; }
             public string Password { get; set; }
+            public string StudentId { get; set; }
+            public string PortalPassword { get; set; }
+            public bool ConfirmedStudent { get; set; }
             //이것은 사용하지 않음. Admin은 직접 설정한다.
             public bool IsAdmin { get; set; } = false;
         }
@@ -67,8 +70,9 @@ namespace VectorWebsite.Application.Users.Commands
                 {
                     UserName = request.Username,
                     Email = request.Email,
+                    StudentId = request.StudentId,
                     IsAdmin = false,
-                    ConfirmedStudent = false,
+                    ConfirmedStudent = request.ConfirmedStudent,
                 };
 
                 var result = await _userManager.CreateAsync(user, request.Password);
@@ -77,8 +81,9 @@ namespace VectorWebsite.Application.Users.Commands
                 {
                     return new UserDTO
                     {
+                        Id = user.Id,
                         IsAdmin = user.IsAdmin,
-                        Name = user.UserName,
+                        UserName = user.UserName,
                         ConfirmedStudent = user.ConfirmedStudent,
                         Token = _jwtGenerator.CreateToken(user),
                     };

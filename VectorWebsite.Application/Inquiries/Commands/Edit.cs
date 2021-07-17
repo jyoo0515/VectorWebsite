@@ -38,6 +38,11 @@ namespace VectorWebsite.Application.Inquiries.Commands
                     throw new RestException(System.Net.HttpStatusCode.NotFound, "No such inquiry exists");
                 }
 
+                if (inquiry.Status != InquiryStatus.등록)
+                {
+                    throw new Exception("Cannot edit inquiry at this status");
+                }
+
                 _mapper.Map(request.UpdatedInquiry, inquiry);
 
                 bool success = await _context.SaveChangesAsync() > 0;

@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using VectorWebsite.Domain.DTOs;
 using VectorWebsite.Infrastructure.Exceptions;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Http;
 
 namespace VectorWebsite.Application.Notices.Commands
 {
@@ -19,7 +20,11 @@ namespace VectorWebsite.Application.Notices.Commands
     {
         public class Command : IRequest
         {
-            public NoticeDTO Notice { get; set; }
+            public string UserId { get; set; }
+            public string Title { get; set; }
+            public string Content { get; set; }
+            public string Category { get; set; }
+            public IFormFile Attachment { get; set; }
         }
         public class Handler : IRequestHandler<Command>
         {
@@ -32,12 +37,22 @@ namespace VectorWebsite.Application.Notices.Commands
             }
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var notice = _mapper.Map<Notice>(request.Notice);
+                var user = await _context.ApplicationUsers.FirstOrDefaultAsync(u => u.Id == request.UserId);
+                string filename = null;
 
-                if (notice == null)
+                if (request.Attachment != null)
                 {
-                    throw new RestException(System.Net.HttpStatusCode.InternalServerError, "Failed to map notice");
+                    filename = request.Attachment.FileName;
                 }
+
+                var notice = new Notice()
+                {
+                    Creator = user,
+                    Title = request.Title,
+                    Content = request.Content,
+                    Category = request.Category,
+                    FileName = filename
+                };
 
                 _context.Notices.Add(notice);
 

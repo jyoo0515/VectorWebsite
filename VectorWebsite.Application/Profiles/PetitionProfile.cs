@@ -13,15 +13,19 @@ namespace VectorWebsite.Domain.Profiles
     {
         public PetitionProfile()
         {
-            CreateMap<Petition, PetitionDTO>();
-            CreateMap<PetitionDTO, Petition>()
-                .ForMember(dest => dest.Comments, opt => opt.Ignore())
-                .ForMember(dest => dest.CreatedDate, opt => opt.Ignore())
-                .ForMember(dest => dest.ExpiryDate, opt => opt.Ignore());
+            CreateMap<Petition, PetitionDTO>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Creator.UserName));
 
-            CreateMap<PetitionComment, PetitionCommentDTO>();
-            CreateMap<PetitionCommentDTO, PetitionComment>()
-                .ForMember(dest => dest.Petition, opt => opt.Ignore());
+            // CreateMap<PetitionDTO, Petition>()
+            //     .ForMember(dest => dest.Comments, opt => opt.Ignore())
+            //     .ForMember(dest => dest.CreatedDate, opt => opt.Ignore())
+            //     .ForMember(dest => dest.ExpiryDate, opt => opt.Ignore());
+
+            CreateMap<PetitionComment, PetitionCommentDTO>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Creator.UserName));
+
+            // CreateMap<PetitionCommentDTO, PetitionComment>()
+            //     .ForMember(dest => dest.Petition, opt => opt.Ignore());
         }
     }
 }

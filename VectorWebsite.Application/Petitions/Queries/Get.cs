@@ -34,6 +34,7 @@ namespace VectorWebsite.Application.Petitions.Queries
             public async Task<PetitionDTO> Handle(Query request, CancellationToken cancellationToken)
             {
                 var petition = await _context.Petitions
+                    .Include(p => p.Creator)
                     .Include(p => p.Comments)
                     .AsNoTracking()
                     .FirstOrDefaultAsync(p => p.Id == request.Id);

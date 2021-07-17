@@ -13,7 +13,9 @@ namespace VectorWebsite.Domain.Profiles
     {
         public InquiryProfile()
         {
-            CreateMap<Inquiry, InquiryDTO>();
+            CreateMap<Inquiry, InquiryDTO>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Creator.UserName));
+
             CreateMap<InquiryDTO, Inquiry>()
                 .ForMember(dest => dest.CreatedDate, opt => opt.Ignore());
         }
