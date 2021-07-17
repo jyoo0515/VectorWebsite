@@ -15,6 +15,5 @@ namespace VectorWebsite.Domain.DTOs
         public string FileName { get; set; }
         public string Category { get; set; }
         public DateTime CreatedDate { get; set; }
-        public int ClickNum { get; set; }
     }
 }

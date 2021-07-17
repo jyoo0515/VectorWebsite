@@ -15,6 +15,5 @@ namespace VectorWebsite.Domain
         public string FileName { get; set; }
         public string Category { get; set; }
         public DateTime CreatedDate { get; init; } = DateTime.Now;
-        public int ClickNum { get; set; } = 0;
     }
 }
