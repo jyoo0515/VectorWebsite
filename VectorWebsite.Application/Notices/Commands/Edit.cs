@@ -16,11 +16,11 @@ namespace VectorWebsite.Application.Notices.Commands
 {
     public class Edit
     {
-        public class Command : IRequest
+        public class Command : IRequest<NoticeDTO>
         {
             public NoticeDTO UpdatedNotice { get; set; }
         }
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, NoticeDTO>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -29,7 +29,7 @@ namespace VectorWebsite.Application.Notices.Commands
                 _context = context;
                 _mapper = mapper;
             }
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<NoticeDTO> Handle(Command request, CancellationToken cancellationToken)
             {
                 var notice = await _context.Notices.FirstOrDefaultAsync(n => n.Id == request.UpdatedNotice.Id);
 
@@ -47,7 +47,7 @@ namespace VectorWebsite.Application.Notices.Commands
                     throw new Exception("Problem saving changes");
                 }
 
-                return Unit.Value;
+                return request.UpdatedNotice;
             }
         }
     }

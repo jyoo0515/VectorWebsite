@@ -16,11 +16,11 @@ namespace VectorWebsite.Application.Inquiries.Commands
 {
     public class Edit
     {
-        public class Command : IRequest
+        public class Command : IRequest<InquiryDTO>
         {
             public InquiryDTO UpdatedInquiry { get; set; }
         }
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, InquiryDTO>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -29,7 +29,7 @@ namespace VectorWebsite.Application.Inquiries.Commands
                 _context = context;
                 _mapper = mapper;
             }
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<InquiryDTO> Handle(Command request, CancellationToken cancellationToken)
             {
                 var inquiry = await _context.Inquiries.FirstOrDefaultAsync(i => i.Id == request.UpdatedInquiry.Id);
 
@@ -52,7 +52,7 @@ namespace VectorWebsite.Application.Inquiries.Commands
                     throw new Exception("Problem saving changes");
                 }
 
-                return Unit.Value;
+                return request.UpdatedInquiry;
             }
         }
     }

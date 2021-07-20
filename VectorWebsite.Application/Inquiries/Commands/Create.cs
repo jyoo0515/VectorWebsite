@@ -18,7 +18,7 @@ namespace VectorWebsite.Application.Inquiries.Commands
 {
     public class Create
     {
-        public class Command : IRequest
+        public class Command : IRequest<InquiryDTO>
         {
             public string UserId { get; set; }
             public string Title { get; set; }
@@ -26,7 +26,7 @@ namespace VectorWebsite.Application.Inquiries.Commands
             public bool IsPrivate { get; set; }
             public IFormFile Attachment { get; set; }
         }
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, InquiryDTO>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -35,10 +35,15 @@ namespace VectorWebsite.Application.Inquiries.Commands
                 _context = context;
                 _mapper = mapper;
             }
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<InquiryDTO> Handle(Command request, CancellationToken cancellationToken)
             {
                 var user = await _context.ApplicationUsers.FirstOrDefaultAsync(u => u.Id == request.UserId);
                 string filename = null;
+
+                if (user == null)
+                {
+                    throw new Exception("User not found");
+                }
 
                 if (request.Attachment != null)
                 {
@@ -63,7 +68,7 @@ namespace VectorWebsite.Application.Inquiries.Commands
                     throw new Exception("Problem saving changes");
                 }
 
-                return Unit.Value;
+                return _mapper.Map<Inquiry, InquiryDTO>(inquiry);
             }
         }
     }
