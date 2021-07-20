@@ -14,7 +14,7 @@ namespace VectorWebsite.API.Controllers
 {
     public class FilesController : ControllerBase
     {
-        public async Task<IActionResult> UploadFile(string category, IFormFile file)
+        public async Task<IActionResult> UploadFile(Guid id, IFormFile file)
         {
             try
             {
@@ -23,7 +23,7 @@ namespace VectorWebsite.API.Controllers
                 //     return BadRequest("No file selected");
                 // }
 
-                var dir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Uploads", category);
+                var dir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Uploads", id.ToString());
                 Directory.CreateDirectory(dir);
                 var path = Path.Combine(dir, file.FileName);
                 using (Stream stream = new FileStream(path, FileMode.Create))
@@ -41,13 +41,13 @@ namespace VectorWebsite.API.Controllers
 
         [AllowAnonymous]
         [Route("api/files/download")]
-        [HttpGet]
-        public async Task<ActionResult> DownloadFile(string category, string filename)
+        [HttpPost]
+        public async Task<ActionResult> DownloadFile([FromBody] FilesQuery request)
         {
-            if (filename == null)
+            if (request.FileName == null)
                 return BadRequest();
 
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Uploads", category, filename);
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Uploads", request.Id.ToString(), request.FileName);
             var memory = new MemoryStream();
             using (Stream stream = new FileStream(path, FileMode.Open))
             {
@@ -82,6 +82,12 @@ namespace VectorWebsite.API.Controllers
                 {".gif", "image/gif"},
                 {".csv", "text/csv"}
             };
+        }
+
+        public class FilesQuery
+        {
+            public Guid Id { get; set; }
+            public string FileName { get; set; }
         }
     }
 }

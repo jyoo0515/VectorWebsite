@@ -47,30 +47,31 @@ namespace VectorWebsite.API.Controllers
             return Ok(notice);
         }
 
+        [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult> CreateAsync([FromForm] Create.Command command)
+        public async Task<ActionResult<NoticeDTO>> CreateAsync([FromForm] Create.Command command)
         {
+            var notice = await _mediator.Send(command);
+
             if (command.Attachment != null)
             {
-                var result = await new FilesController().UploadFile("Notice", command.Attachment);
+                var result = await new FilesController().UploadFile(notice.Id, command.Attachment);
             }
 
-            await _mediator.Send(command);
-
-            return Ok();
+            return Ok(notice);
         }
 
         [HttpPut]
-        public async Task<ActionResult> EditAsync([FromBody] NoticeDTO updatedNotice)
+        public async Task<ActionResult<NoticeDTO>> EditAsync([FromBody] NoticeDTO updatedNotice)
         {
             var command = new Edit.Command
             {
                 UpdatedNotice = updatedNotice
             };
 
-            await _mediator.Send(command);
+            var notice = await _mediator.Send(command);
 
-            return Ok();
+            return Ok(notice);
         }
 
         [HttpDelete("{id}")]

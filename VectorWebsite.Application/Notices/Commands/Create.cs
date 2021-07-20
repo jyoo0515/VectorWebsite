@@ -18,7 +18,7 @@ namespace VectorWebsite.Application.Notices.Commands
 {
     public class Create
     {
-        public class Command : IRequest
+        public class Command : IRequest<NoticeDTO>
         {
             public string UserId { get; set; }
             public string Title { get; set; }
@@ -26,7 +26,7 @@ namespace VectorWebsite.Application.Notices.Commands
             public string Category { get; set; }
             public IFormFile Attachment { get; set; }
         }
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, NoticeDTO>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -35,10 +35,15 @@ namespace VectorWebsite.Application.Notices.Commands
                 _context = context;
                 _mapper = mapper;
             }
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<NoticeDTO> Handle(Command request, CancellationToken cancellationToken)
             {
                 var user = await _context.ApplicationUsers.FirstOrDefaultAsync(u => u.Id == request.UserId);
                 string filename = null;
+
+                if (user == null)
+                {
+                    throw new Exception("User not found");
+                }
 
                 if (request.Attachment != null)
                 {
@@ -63,7 +68,7 @@ namespace VectorWebsite.Application.Notices.Commands
                     throw new Exception("Problem saving changes");
                 }
 
-                return Unit.Value;
+                return _mapper.Map<Notice, NoticeDTO>(notice);
             }
         }
     }

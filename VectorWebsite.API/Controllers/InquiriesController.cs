@@ -49,16 +49,16 @@ namespace VectorWebsite.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateAsync([FromForm] Create.Command command)
+        public async Task<ActionResult<InquiryDTO>> CreateAsync([FromForm] Create.Command command)
         {
+            var inquiry = await _mediator.Send(command);
+
             if (command.Attachment != null)
             {
-                var result = await new FilesController().UploadFile("Inquiry", command.Attachment);
+                var result = await new FilesController().UploadFile(inquiry.Id, command.Attachment);
             }
 
-            await _mediator.Send(command);
-
-            return Ok();
+            return Ok(inquiry);
         }
 
         [HttpPut]
@@ -69,9 +69,9 @@ namespace VectorWebsite.API.Controllers
                 UpdatedInquiry = updatedInquiry
             };
 
-            await _mediator.Send(command);
+            var inquiry = await _mediator.Send(command);
 
-            return Ok();
+            return Ok(inquiry);
         }
 
         [HttpDelete("{id}")]

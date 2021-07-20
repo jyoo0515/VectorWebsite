@@ -50,11 +50,9 @@ namespace VectorWebsite.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateAsync(Create.Command command)
+        public async Task<ActionResult<PetitionDTO>> CreateAsync(Create.Command command)
         {
-            await _mediator.Send(command);
-
-            return Ok();
+            return await _mediator.Send(command);
         }
 
         [HttpDelete("{id}")]
@@ -83,11 +81,9 @@ namespace VectorWebsite.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateCommentAsync(CreateComment.Command command)
+        public async Task<ActionResult<PetitionCommentDTO>> CreateCommentAsync(CreateComment.Command command)
         {
-            await _mediator.Send(command);
-
-            return Ok();
+            return await _mediator.Send(command);
         }
 
         [HttpDelete("{id}")]
