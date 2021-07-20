@@ -17,13 +17,13 @@ namespace VectorWebsite.Application.Petitions.Commands
 {
     public class Create
     {
-        public class Command : IRequest
+        public class Command : IRequest<PetitionDTO>
         {
             public string UserId { get; set; }
             public string Title { get; set; }
             public string Content { get; set; }
         }
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, PetitionDTO>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -32,7 +32,7 @@ namespace VectorWebsite.Application.Petitions.Commands
                 _context = context;
                 _mapper = mapper;
             }
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<PetitionDTO> Handle(Command request, CancellationToken cancellationToken)
             {
                 var user = await _context.ApplicationUsers.FirstOrDefaultAsync(u => u.Id == request.UserId);
 
@@ -53,7 +53,9 @@ namespace VectorWebsite.Application.Petitions.Commands
                     throw new Exception("Problem saving changes");
                 }
 
-                return Unit.Value;
+                var petitionDTO = _mapper.Map<Petition, PetitionDTO>(petition);
+
+                return petitionDTO;
             }
         }
     }

@@ -17,13 +17,13 @@ namespace VectorWebsite.Application.Petitions.Comments
 {
     public class CreateComment
     {
-        public class Command : IRequest
+        public class Command : IRequest<PetitionCommentDTO>
         {
             public string UserId { get; set; }
             public string Content { get; set; }
             public Guid PetitionId { get; set; }
         }
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, PetitionCommentDTO>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -32,7 +32,7 @@ namespace VectorWebsite.Application.Petitions.Comments
                 _context = context;
                 _mapper = mapper;
             }
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<PetitionCommentDTO> Handle(Command request, CancellationToken cancellationToken)
             {
                 var user = await _context.ApplicationUsers.FirstOrDefaultAsync(u => u.Id == request.UserId);
                 var petition = await _context.Petitions
@@ -62,7 +62,9 @@ namespace VectorWebsite.Application.Petitions.Comments
                     throw new Exception("Problem saving changes");
                 }
 
-                return Unit.Value;
+                var commentDTO = _mapper.Map<PetitionComment, PetitionCommentDTO>(comment);
+
+                return commentDTO;
             }
         }
     }

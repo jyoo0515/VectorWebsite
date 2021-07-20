@@ -14,6 +14,7 @@ namespace VectorWebsite.Domain.DTOs
         public string Content { get; set; }
         public DateTime CreatedDate { get; init; }
         public bool IsPrivate { get; set; }
+        public string FileName { get; set; }
         public InquiryStatus Status { get; set; }
     }
 }
