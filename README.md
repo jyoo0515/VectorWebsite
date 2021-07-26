@@ -1,7 +1,5 @@
 # VectorWebsite
 
----
-
 ## Project Structure
 
 #### 1) VectorWebsite.API
@@ -24,12 +22,12 @@
   - 이 경우 singinMangner와 loginManager와 같은 기능을 사용 가능
 - DTO(Data Transfer Object) 또한 정의되어 있음
 
-#### VectorWebsite.Infrastructure
+#### 4) VectorWebsite.Infrastructure
 
 - 다양한 용도로 사용되는 Middleware가 정의되어 있는 곳
   - 예) JWT 방식에 사용할 Token Generator
 
-#### VectorWebsite.Persistance
+#### 5) VectorWebsite.Persistance
 
 - [DBContext](https://docs.microsoft.com/ko-kr/dotnet/api/system.data.entity.dbcontext?view=entity-framework-6.2.0)가 정의되어 있는곳
 - DB Migration History 확인 가능
