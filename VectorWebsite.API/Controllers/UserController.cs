@@ -57,6 +57,20 @@ namespace VectorWebsite.API.Controllers
             return await _mediator.Send(command);
         }
 
+        [AllowAnonymous]
+        [HttpPost("portal-check")]
+        public async Task<ActionResult> CheckStudent(string studentId, string password)
+        {
+            PortalLogin.Query query = new PortalLogin.Query
+            {
+                UserId = studentId,
+                Password = password
+            };
+
+            bool confirm = await _mediator.Send(query);
+            return Ok(confirm);
+        }
+
         //현재 로그인한 유저 정보 반환
         [HttpGet]
         public async Task<ActionResult<UserDTO>> GetCurrentUser()
