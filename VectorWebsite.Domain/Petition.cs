@@ -25,5 +25,6 @@ namespace VectorWebsite.Domain
         public string Content { get; set; }
         public DateTime CreatedDate { get; init; } = DateTime.Now;
         public Petition Petition { get; set; }
+        public int Report { get; set; }
     }
 }

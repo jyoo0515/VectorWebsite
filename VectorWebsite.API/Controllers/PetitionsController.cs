@@ -96,5 +96,15 @@ namespace VectorWebsite.API.Controllers
 
             return Ok();
         }
+
+        [Route("report")]
+        [HttpPost]
+        public async Task<ActionResult> ReportCommentAsync(ReportComment.Command command)
+        {
+            await _mediator.Send(command);
+
+            return Ok();
+        }
+        // Todo: Prevent report spam
     }
 }
