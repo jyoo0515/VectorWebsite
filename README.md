@@ -1,10 +1,19 @@
 # VectorWebsite
 
+## Setup Environment
+
+1. Download [Visual Studio Community 2019](https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community&rel=16)
+
+2. Make sure to include `ASP.NET and web development` and `.NET 5.0 Runtime` during installation
+   <img src ="https://user-images.githubusercontent.com/43549670/134871426-9d7f86de-442e-4ba0-85e4-04d35f5167e0.png">
+   <img src="https://user-images.githubusercontent.com/43549670/134871609-beeae399-e2f6-458f-bfa8-9ff45deb796d.png" width="600" height="400">
+
+2-1. If Visual Studio is already installed, run `Visual Studio Installer` then click `Modify` to make sure that the packages above are installed
+
 ## How to Run
 
 #### Using Visual Studio
 
-0. Make sure `.Net Framework 5.0` is installed
 1. Clone Repository
 
 2. Open `VectorWebsite.sln`
