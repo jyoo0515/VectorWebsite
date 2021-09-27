@@ -1,5 +1,19 @@
 # VectorWebsite
 
+## How to Run
+
+#### Using Visual Studio
+
+0. Make sure `.Net Framework 5.0` is installed
+1. Clone Repository
+
+2. Open `VectorWebsite.sln`
+
+3. Choose VectorWebsite.API and run (Just recommended, IIS works as well!)
+   ![image](https://user-images.githubusercontent.com/43549670/134863263-fa8fe530-86a8-47cc-afc8-924efd15bbf0.png)
+
+4. Go to `https://localhost:####/swagger` to check api documentation
+
 ## Project Structure
 
 #### 1) VectorWebsite.API
