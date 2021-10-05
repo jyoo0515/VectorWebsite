@@ -47,7 +47,6 @@ namespace VectorWebsite.API.Controllers
             return Ok(notice);
         }
 
-        [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult<NoticeDTO>> CreateAsync([FromForm] Create.Command command)
         {

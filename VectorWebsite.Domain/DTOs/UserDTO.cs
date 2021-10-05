@@ -11,6 +11,7 @@ namespace VectorWebsite.Domain.DTOs
         public string Id { get; set; }
         public string UserName { get; set; }
         public bool IsAdmin { get; set; }
+        public Department Department { get; set; }
         public bool ConfirmedStudent { get; set; }
         public string StudentId { get; set; }
         public string Token { get; set; }

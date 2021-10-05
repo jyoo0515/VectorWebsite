@@ -40,9 +40,9 @@ namespace VectorWebsite.Application.Notices.Commands
                 var user = await _context.ApplicationUsers.FirstOrDefaultAsync(u => u.Id == request.UserId);
                 string filename = null;
 
-                if (user == null)
+                if (!user.IsAdmin)
                 {
-                    throw new Exception("User not found");
+                    throw new Exception("User is not an admin");
                 }
 
                 if (request.Attachment != null)
