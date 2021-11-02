@@ -74,11 +74,12 @@ namespace VectorWebsite.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteAsync(Guid id)
+        public async Task<ActionResult> DeleteAsync(Guid id, string userId)
         {
             await _mediator.Send(new Delete.Command
             {
-                Id = id
+                Id = id,
+                UserId = userId
             });
 
             return Ok();

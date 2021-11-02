@@ -19,6 +19,7 @@ namespace VectorWebsite.Application.Notices.Commands
         public class Command : IRequest
         {
             public Guid Id { get; set; }
+            public string UserId { get; set; }
         }
         public class Handler : IRequestHandler<Command>
         {
@@ -29,6 +30,12 @@ namespace VectorWebsite.Application.Notices.Commands
             }
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                var user = await _context.ApplicationUsers.FirstOrDefaultAsync(u => u.Id == request.UserId);
+                if (!user.IsAdmin)
+                {
+                    throw new Exception("User is not an admin");
+                }
+
                 var notice = await _context.Notices.FirstOrDefaultAsync(n => n.Id == request.Id);
 
                 if (notice == null)
