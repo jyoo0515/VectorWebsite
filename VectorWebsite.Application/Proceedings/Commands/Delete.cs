@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using VectorWebsite.Domain.DTOs;
 using VectorWebsite.Infrastructure.Exceptions;
 
-namespace VectorWebsite.Application.Notices.Commands
+namespace VectorWebsite.Application.Proceedings.Commands
 {
     public class Delete
     {
@@ -36,19 +36,19 @@ namespace VectorWebsite.Application.Notices.Commands
                     throw new Exception("User is not an admin");
                 }
 
-                var notice = await _context.Notices.FirstOrDefaultAsync(n => n.Id == request.Id);
+                var proceeding = await _context.Proceedings.FirstOrDefaultAsync(n => n.Id == request.Id);
 
-                if (notice == null)
+                if (proceeding == null)
                 {
-                    throw new Exception($"Notice {request.Id} is not found");
+                    throw new Exception($"Proceeding {request.Id} is not found");
                 }
 
-                _context.Notices.Remove(notice);
+                _context.Proceedings.Remove(proceeding);
                 bool success = await _context.SaveChangesAsync() > 0;
 
                 if (!success)
                 {
-                    throw new Exception("Error deleting notice");
+                    throw new Exception("Error deleting a proceeding");
                 }
 
                 return Unit.Value;
