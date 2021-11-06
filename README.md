@@ -23,7 +23,20 @@
 
 4. Go to `https://localhost:####/swagger` to check api documentation
 
+### Static API Documentation
+
+- [Notion](https://marked-cotton-e01.notion.site/API-Docs-6deddf14ce384936abd9f5dfba40e4c3)
+
 ## Project Structure
+
+```bash
+root
+├── VectorWebsite.API
+├── VectorWebsite.Application
+├── VectorWebsite.Domain
+├── VectorWebsite.Infrastructure
+└── VectorWebsite.Persistance
+```
 
 #### 1) VectorWebsite.API
 
